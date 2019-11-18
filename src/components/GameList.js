@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory, Link } from "react-router-dom";
 import config from "../config";
 import constants from "../constants";
 import { AuthContext } from "../state/Auth";
@@ -16,6 +17,7 @@ const initialState = {
 const GameList = () => {
   const { state: authState } = React.useContext(AuthContext);
   const [state, dispatch] = React.useReducer(reducer, initialState);
+  const history = useHistory();
   const [isAddGameModalVisible, setAddGameModalVisibility] = React.useState(
     false
   );
@@ -30,7 +32,8 @@ const GameList = () => {
     });
     fetch(`${config.apiUrl}/api/games/`, {
       headers: {
-        Authorization: `Bearer ${authState.token}`
+        // Authorization: `Bearer ${authState.token}`
+        Authorization: `Bearer ${localStorage.getItem("token")}`
       }
     })
       .then(res => {
@@ -47,16 +50,15 @@ const GameList = () => {
         });
       })
       .catch(error => {
-        if (error.status === 401) {
-          // dirty hack, should use router
-          window.alert("Session expired, redirecting to login page");
-          window.location.href = "/";
-        }
         dispatch({
           type: "FETCH_GAMES_FAILURE"
         });
+        if (error.status === 401) {
+          window.alert("Session expired, redirecting to login page");
+          history.push("/login");
+        }
       });
-  }, [authState.token]);
+  }, [authState.token, history]);
 
   return (
     <GamesContext.Provider
@@ -114,9 +116,12 @@ const GameList = () => {
                           <td>{constants.gameStates[game.state.toString()]}</td>
                           <td>
                             {[0, 1, 2].indexOf(game.state) > -1 && (
-                              <button className="button is-info">
+                              <Link
+                                className="button is-info"
+                                to={`/game/${game.id}`}
+                              >
                                 {game.state === 0 ? "Start" : "Resume"} game
-                              </button>
+                              </Link>
                             )}
                           </td>
                         </tr>

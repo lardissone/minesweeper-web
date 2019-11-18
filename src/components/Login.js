@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import config from "../config";
 import { AuthContext } from "../state/Auth";
 
@@ -10,6 +11,10 @@ export const Login = () => {
     isSubmitting: false,
     errorMessage: null
   };
+
+  const history = useHistory();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: "/" } };
 
   const [data, setData] = React.useState(initialState);
   const handleInputChange = event => {
@@ -47,6 +52,7 @@ export const Login = () => {
           type: "LOGIN",
           payload: respJson
         });
+        history.replace(from);
       })
       .catch(error => {
         setData({

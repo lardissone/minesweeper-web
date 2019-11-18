@@ -1,10 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../state/Auth";
 
 const Nav = () => {
   const { state, dispatch } = React.useContext(AuthContext);
 
-  const logout = () => {
+  const logout = e => {
+    e.preventDefault();
     dispatch({
       type: "LOGOUT"
     });
@@ -17,26 +19,25 @@ const Nav = () => {
       aria-label="main navigation"
     >
       <div className="navbar-brand">
-        <a href="/" className="navbar-item">
+        <Link to="/" className="navbar-item">
           <strong>Minesweeper</strong>
-        </a>
-        <a href="/games" className="navbar-item">
-          Games
-        </a>
+        </Link>
+        {state.isAuthenticated && (
+          <Link to="/" className="navbar-item">
+            Games
+          </Link>
+        )}
       </div>
 
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <a
-                href="/logout"
-                className="button is-light"
-                style={{ display: state.isAuthenticated ? "" : "none" }}
-                onClick={logout}
-              >
-                Logout
-              </a>
+              {state.isAuthenticated && (
+                <a href="/logout" className="button is-light" onClick={logout}>
+                  Logout
+                </a>
+              )}
             </div>
           </div>
         </div>
