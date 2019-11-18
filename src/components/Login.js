@@ -1,4 +1,5 @@
 import React from "react";
+import config from "../config";
 import { AuthContext } from "../state/Auth";
 
 export const Login = () => {
@@ -11,7 +12,6 @@ export const Login = () => {
   };
 
   const [data, setData] = React.useState(initialState);
-
   const handleInputChange = event => {
     setData({
       ...data,
@@ -26,7 +26,7 @@ export const Login = () => {
       isSubmitting: true,
       errorMessage: null
     });
-    fetch("http://localhost:8000/api/login/", {
+    fetch(`${config.apiUrl}/api/login/`, {
       method: "post",
       headers: {
         "Content-Type": "application/json"

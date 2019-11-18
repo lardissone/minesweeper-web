@@ -5,7 +5,6 @@ import { AuthContext, reducer } from "./state/Auth";
 
 import Nav from "./components/Nav";
 import Login from "./components/Login";
-import Game from "./components/Game";
 import GameList from "./components/GameList";
 
 export const GamesContext = React.createContext();
@@ -25,7 +24,7 @@ function App() {
       dispatch({
         type: "LOGIN",
         payload: {
-          token
+          access: token
         }
       });
     }
