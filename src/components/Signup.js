@@ -1,20 +1,19 @@
 import React from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import config from "../config";
 import { AuthContext } from "../state/Auth";
 
-export const Login = () => {
+export const Signup = () => {
   const { dispatch } = React.useContext(AuthContext);
   const initialState = {
     email: "",
     password: "",
     isSubmitting: false,
-    errorMessage: null
+    errorMessage: null,
+    successMessage: false
   };
 
   const history = useHistory();
-  const location = useLocation();
-  const { from } = location.state || { from: { pathname: "/" } };
 
   const [data, setData] = React.useState(initialState);
   const handleInputChange = event => {
@@ -29,15 +28,17 @@ export const Login = () => {
     setData({
       ...data,
       isSubmitting: true,
-      errorMessage: null
+      errorMessage: null,
+      successMessage: false
     });
-    fetch(`${config.apiUrl}/api/login/`, {
+    fetch(`${config.apiUrl}/api/users/`, {
       method: "post",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        username: data.username,
+        username: data.email,
+        email: data.email,
         password: data.password
       })
     })
@@ -49,10 +50,15 @@ export const Login = () => {
       })
       .then(respJson => {
         dispatch({
-          type: "LOGIN",
+          type: "SIGNUP",
           payload: respJson
         });
-        history.replace(from);
+        setData({
+          successMessage: true
+        });
+        setTimeout(() => {
+          history.push("/");
+        }, 3000);
       })
       .catch(error => {
         setData({
@@ -68,22 +74,21 @@ export const Login = () => {
       <div className="column is-half is-offset-one-quarter">
         <div className="card">
           <div className="card-content">
-            <div className="title">Login</div>
+            <div className="title">Signup</div>
 
             <form onSubmit={handleFormSubmit}>
               <div className="field">
-                <label className="label">Username</label>
+                <label className="label">Email</label>
                 <p className="control has-icons-left">
                   <input
                     className={data.errorMessage ? "input is-danger" : "input"}
-                    type="text"
-                    name="username"
-                    // value={data.username}
-                    placeholder="johndoe77"
+                    type="email"
+                    name="email"
+                    placeholder="johndoe77@gmail.com"
                     onChange={handleInputChange}
                   />
                   <span className="icon is-small is-left">
-                    <i className="fas fa-user"></i>
+                    <i className="fas fa-envelope"></i>
                   </span>
                 </p>
               </div>
@@ -107,6 +112,13 @@ export const Login = () => {
                   <div className="message-body">{data.errorMessage}</div>
                 </article>
               )}
+              {data.successMessage && (
+                <article className="message is-success">
+                  <div className="message-body">
+                    You're now registered, redirecting to login...
+                  </div>
+                </article>
+              )}
               <div className="field">
                 <p className="control">
                   <button
@@ -118,7 +130,7 @@ export const Login = () => {
                     disabled={data.isSubmitting}
                     type="submit"
                   >
-                    Login
+                    Sign Up
                   </button>
                 </p>
               </div>
@@ -130,4 +142,4 @@ export const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

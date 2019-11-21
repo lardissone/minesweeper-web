@@ -1,0 +1,84 @@
+.board {
+  margin: 20px auto;
+  width: auto;
+  background-color: lightgray;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border-color: grey;
+}
+
+.board td {
+  line-height: 1;
+  height: 25px;
+  width: 25px;
+  background-color: #c0c0c0;
+  border: 1.5px solid;
+  border-top-color: #ffffff;
+  border-right-color: #7b7b7b;
+  border-bottom-color: #7b7b7b;
+  border-left-color: #ffffff;
+  border-spacing: 2px;
+  border-collapse: separate;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  outline: 0;
+  font-size: 20px;
+}
+
+table td:not([align]) {
+  text-align: center;
+}
+
+.board td.uncovered {
+  border: none;
+  background-color: #c0c0c0;
+}
+
+.board td.clean::after {
+  content: "";
+}
+
+.board td.question::after {
+  content: "❓";
+  position: absolute;
+  top: 2px;
+  left: 0;
+  font-size: 20px;
+}
+
+.board td.flag::after {
+  content: "🚩";
+  position: absolute;
+  top: 0;
+  left: 4px;
+  font-size: 16px;
+}
+
+.board td.mine::after {
+  content: "💣";
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  font-size: 16px;
+}
+
+.board td.cell-color0 {
+  color: black;
+}
+
+.board td.cell-color1 {
+  color: blue;
+}
+
+.board td.cell-color2 {
+  color: green;
+}
+
+.board td.cell-color3 {
+  color: red;
+}
+
+.board td.cell-color4 {
+  color: #000080;
+}

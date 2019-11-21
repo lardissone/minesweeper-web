@@ -2,7 +2,6 @@ import React from "react";
 import { useHistory, Link } from "react-router-dom";
 import config from "../config";
 import constants from "../constants";
-import { AuthContext } from "../state/Auth";
 import { GamesContext, reducer } from "../state/Games";
 import NewGameModal from "./NewGame";
 
@@ -15,7 +14,6 @@ const initialState = {
 };
 
 const GameList = () => {
-  const { state: authState } = React.useContext(AuthContext);
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const history = useHistory();
   const [isAddGameModalVisible, setAddGameModalVisibility] = React.useState(
@@ -32,7 +30,6 @@ const GameList = () => {
     });
     fetch(`${config.apiUrl}/api/games/`, {
       headers: {
-        // Authorization: `Bearer ${authState.token}`
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }
     })
@@ -54,11 +51,11 @@ const GameList = () => {
           type: "FETCH_GAMES_FAILURE"
         });
         if (error.status === 401) {
-          window.alert("Session expired, redirecting to login page");
+          localStorage.removeItem("token");
           history.push("/login");
         }
       });
-  }, [authState.token, history]);
+  }, [history]);
 
   return (
     <GamesContext.Provider

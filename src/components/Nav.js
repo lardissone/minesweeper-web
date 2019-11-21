@@ -38,6 +38,16 @@ const Nav = () => {
                   Logout
                 </a>
               )}
+              {!state.isAuthenticated && (
+                <>
+                  <Link to="/login" className="button is-light">
+                    Login
+                  </Link>
+                  <Link to="/signup" className="button is-light">
+                    Sign Up
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

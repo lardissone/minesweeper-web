@@ -12,6 +12,7 @@ import { AuthContext, reducer } from "./state/Auth";
 
 import Nav from "./components/Nav";
 import Login from "./components/Login";
+import Signup from "./components/Signup";
 import GameList from "./components/GameList";
 import Game from "./components/Game";
 
@@ -51,6 +52,9 @@ function App() {
             <Switch>
               <Route path="/login">
                 <Login />
+              </Route>
+              <Route path="/signup">
+                <Signup />
               </Route>
               <PrivateRoute path="/game/:id">
                 <Game />

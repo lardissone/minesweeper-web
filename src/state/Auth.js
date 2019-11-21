@@ -4,6 +4,10 @@ export const AuthContext = React.createContext();
 
 export const reducer = (state, action) => {
   switch (action.type) {
+    case "SIGNUP":
+      return {
+        ...state
+      };
     case "LOGIN":
       localStorage.setItem("token", action.payload.access);
       return {
