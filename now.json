@@ -2,7 +2,7 @@
   "version": 2,
   "build": {
     "env": {
-      "REACT_APP_API_URL": "https://immense-reaches-31994.herokuapp.com"
+      "REACT_APP_API_URL": "https://lardissone-minesweeper-api.herokuapp.com"
     }
   }
 }

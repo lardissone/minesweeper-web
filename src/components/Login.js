@@ -37,7 +37,7 @@ export const Login = () => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        username: data.username,
+        username: data.email,
         password: data.password
       })
     })
@@ -72,18 +72,18 @@ export const Login = () => {
 
             <form onSubmit={handleFormSubmit}>
               <div className="field">
-                <label className="label">Username</label>
+                <label className="label">Email</label>
                 <p className="control has-icons-left">
                   <input
                     className={data.errorMessage ? "input is-danger" : "input"}
-                    type="text"
-                    name="username"
+                    type="email"
+                    name="email"
                     // value={data.username}
-                    placeholder="johndoe77"
+                    placeholder="johndoe77@gmail.com"
                     onChange={handleInputChange}
                   />
                   <span className="icon is-small is-left">
-                    <i className="fas fa-user"></i>
+                    <i className="fas fa-envelope"></i>
                   </span>
                 </p>
               </div>
